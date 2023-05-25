@@ -1,6 +1,6 @@
-6b95da7e3e0d6c76bb61913b23fa1be7 *DESCRIPTION
+c94ee97782f9f5f3472ac92c0d111f43 *DESCRIPTION
 fb4c55412183de00dd8cfe70cf7683d8 *NAMESPACE
-54b53d8af00fbc0e591e92f61da947c1 *NEWS.md
+ecb633ad76b435a3dc99f402a13eb27b *NEWS.md
 2942cd8299173be051bb019d6bcb94c5 *R/class_plot.R
 fdb017f7d2a4b3e99da3bccac96f2378 *R/forestData.R
 837de14b300181f4615c83e835598728 *R/plot.R
@@ -11,8 +11,8 @@ f7512199674d6d006cb23d5605efed8c *R/util.R
 3ce5c461e9c47700604a212ed8deb680 *build/vignette.rds
 ef48292f3147dca538ca5304e7ae63c5 *data/forestData.rda
 81eff9b7bf054ae55757144929669b7d *inst/CITATION
-d951aafc15fc88341764966d534ee15f *inst/doc/vignette.Rmd
-bf0647ea4374fd30d551828fa85bb3ac *inst/doc/vignette.html
+96a895cb5050219c41cf1be14b07839a *inst/doc/vignette.Rmd
+4dda088fe95e614bd6ffaf8ddb813308 *inst/doc/vignette.html
 5233857069a57d6a35023220a77296e8 *inst/extdata/forestData.csv
 c01e81ebb6b29fe2b6d5e005838b9522 *man/class.plot.Rd
 52a34bff148828912598f2b929e912d2 *man/forestData.Rd
@@ -25,4 +25,4 @@ d9b34c6581785737228bcc8387e93106 *vignettes/img/forestData.png
 602187f8a30918b3764b2996e6234fc0 *vignettes/img/forestDataObj.png
 a7b489b91192655476dd9e1fd161e760 *vignettes/img/plot-1.png
 f9d757d040ca985482fa25cf7e503961 *vignettes/img/plot-2.png
-d951aafc15fc88341764966d534ee15f *vignettes/vignette.Rmd
+96a895cb5050219c41cf1be14b07839a *vignettes/vignette.Rmd
