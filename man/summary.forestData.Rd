@@ -22,13 +22,13 @@ The summary includes the summary of raw data, the model, the model parameters, p
 }
 \examples{
 \donttest{
-# Load the forestat.csv sample data
-forestData <- read.csv(system.file("extdata", "forestData.csv", package = "forestat"))
+# Load sample data
+data("forestData")
 
 # Build a model based on the forestData and return a forestData class object
 forestData <- class.plot(forestData,model="Richards",
-                         interval=5,number=5,
-                         a=19,b=0.1,c=0.8)
+                         interval=5,number=5,maxiter=1000,
+                         H_start=c(a=20,b=0.05,c=1.0))
 
 # Get the summary data of the forestData object
 summary(forestData)

@@ -7,13 +7,13 @@
 #' @return A summary object of class "summary.forestData"
 #' @examples
 #' \donttest{
-#' # Load the forestat.csv sample data
-#' forestData <- read.csv(system.file("extdata", "forestData.csv", package = "forestat"))
+#' # Load sample data
+#' data("forestData")
 #'
 #' # Build a model based on the forestData and return a forestData class object
 #' forestData <- class.plot(forestData,model="Richards",
-#'                          interval=5,number=5,
-#'                          a=19,b=0.1,c=0.8)
+#'                          interval=5,number=5,maxiter=1000,
+#'                          H_start=c(a=20,b=0.05,c=1.0))
 #'
 #' # Get the summary data of the forestData object
 #' summary(forestData)
@@ -48,21 +48,23 @@ print.summary.forestData <- function (x, ...){
   if(inherits(data$Hmodel,"modelobj")){
     model <- data$Hmodel$model
     parameter <- data$output$H
-    cat("Hmodel Parameters:\n\n")
+    cat("H-model Parameters:\n")
     print(summary(model))
     print.parameters(parameter)
   }
+  cat("\n")
   if(inherits(data$BAmodel,"modelobj")){
     model <- data$BAmodel$model
     parameter <- data$output$BA
-    cat("BAmodel Parameters:\n\n")
+    cat("BA-model Parameters:\n")
     print(summary(model))
     print.parameters(parameter)
   }
+  cat("\n")
   if(inherits(data$Biomodel,"modelobj")){
     model <- data$Biomodel$model
     parameter <- data$output$Bio
-    cat("Biomodel Parameters:\n\n")
+    cat("Bio-model Parameters:\n")
     print(summary(model))
     print.parameters(parameter)
   }
@@ -70,14 +72,16 @@ print.summary.forestData <- function (x, ...){
   if("potential.productivity" %in% names(data)){
     select(data$potential.productivity,Max_GI,Max_MI) %>% summary(.) %>% print(.)
   }
-  if("reality.productivity" %in% names(data)){
-    select(data$reality.productivity,BAI,VI) %>% summary(.) %>% print(.)
+  cat("\n")
+  if("realized.productivity" %in% names(data)){
+    select(data$realized.productivity,BAI,VI) %>% summary(.) %>% print(.)
   }
 }
 
 print.parameters <- function(x, ...){
   parameter <- x
-  cat("\nConcise Parameter Report:\n")
+  cat("\n")
+  cat("Concise Parameter Report:\n")
   cat("Model Coefficients:\n")
   print(parameter[c("a1","a2","a3","a4","a5","b","c")],row.names = F)
   cat("\n")

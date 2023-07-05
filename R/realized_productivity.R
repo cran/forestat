@@ -1,11 +1,11 @@
 # -*- coding: UTF-8 -*-
-#' @title Calculate the reality productivity.
-#' @description reality.productivity calculate the reality productivity of each tree based on model parameters(obtained from the parameterOutput function).
-#' @details reality.productivity takes data,data_BA,data_V parameters as required inputs.
+#' @title Calculate the realized productivity.
+#' @description realized.productivity calculate the realized productivity of each stand based on model parameters (obtained from the parameterOutput function).
+#' @details realized.productivity takes data,data_BA,data_V parameters as required inputs.
 #' @param forestData A forestData class data
-#' @param left Solving for the left boundary of the reality productivity.
-#' @param right Solving for the right boundary of the reality productivity.
-#' @return A forestData class in which a data.frame with reality productivity parameters is added.
+#' @param left Solving for the left boundary of the realized productivity.
+#' @param right Solving for the right boundary of the realized productivity.
+#' @return A forestData class in which a data.frame with realized productivity parameters is added.
 #' @examples
 #' \donttest{
 #' # Load sample data
@@ -13,15 +13,15 @@
 #'
 #' # Build a model based on the forestData and return a forestData class object
 #' forestData <- class.plot(forestData,model="Richards",
-#'                          interval=5,number=5,
-#'                          a=19,b=0.1,c=0.8)
+#'                          interval=5,number=5,maxiter=1000,
+#'                          H_start=c(a=20,b=0.05,c=1.0))
 #'
-#' # Calculate the reality productivity of the forestData object
-#' forestData <- reality.productivity(forestData,left=0.05,right=100)
+#' # Calculate the realized productivity of the forestData object
+#' forestData <- realized.productivity(forestData,left=0.05,right=100)
 #' }
-#' @export reality.productivity
+#' @export realized.productivity
 
-reality.productivity <- function(forestData, left=0.05, right=100) {
+realized.productivity <- function(forestData, left=0.05, right=100) {
   if(!inherits(forestData, "forestData")){
     stop("Only data in forestData format is available!")
   }
@@ -72,6 +72,6 @@ reality.productivity <- function(forestData, left=0.05, right=100) {
   }
   data$BAI[data$BAI < 0] <- 0
   data$VI[data$VI < 0] <- 0
-  forestData$reality.productivity <- data
+  forestData$realized.productivity <- data
   return(forestData)
 }

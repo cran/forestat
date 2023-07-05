@@ -2,8 +2,8 @@
 #' @title ForestData Plot
 #' @description Plot graphs about the forestData.
 #' @param x A data of forestData class.
-#' @param model.type Type of model used for fitting, options are `H` (tree height model), `BA` (basal area growth model), or `Bio` (stocking growth model).
-#' @param plot.type Type of plot, options are `Curve` (curve plot), `Scatter_Curve` (scatter plot with curve), `residual` (residual plot), or `Scatter` (scatter plot).
+#' @param model.type Type of model used for fitting, options are `H` (stand height growth model), `BA` (stand basal area model), or `Bio` (stand biomass model).
+#' @param plot.type Type of plot, options are `Curve` (curve plot), `Scatter_Curve` (scatter plot with curve), `Residual` (residual plot), or `Scatter` (scatter plot).
 #' @param xlab The title for the x axis.
 #' @param ylab The title for the y axis.
 #' @param legend.lab The title for the legends.
@@ -17,14 +17,14 @@
 #'
 #' # Build a model based on the forestData and return a forestData class object
 #' forestData <- class.plot(forestData,model="Richards",
-#'                          interval=5,number=5,
-#'                          a=19,b=0.1,c=0.8)
+#'                          interval=5,number=5,maxiter=1000,
+#'                          H_start=c(a=20,b=0.05,c=1.0))
 #'
-#' # Plot the curve of the tree height model
+#' # Plot the curve of the height classes
 #' plot(forestData, model.type="H",
 #'      plot.type="Curve",
 #'      xlab="Stand age (year)",ylab="Height (m)",legend.lab="Site class",
-#'      title="Curve of the Oak and Broadleaf Tree Height Model")
+#'      title="The H-model curve of the mixed birch-broadleaf forest")
 #' }
 #' @export
 #' @import ggplot2
@@ -32,11 +32,11 @@
 plot.forestData <-function(x,model.type="H",
                            plot.type="Curve",
                            xlab=NA,ylab=NA,legend.lab="Site class",
-                           title="Oak broadleaf mixed",...){
+                           title="Mixed birch-broadleaf forest",...){
   model.type.list <- c("H","BA","Bio")
-  plot.type.list <- c("Curve","residuals","Scatter_Curve","Scatter")
+  plot.type.list <- c("Curve","Residual","Scatter_Curve","Scatter")
   if(all(plot.type != plot.type.list)){
-    stop("Wrong Plot Type!Please type in Curve,residuals,Scatter_Curve or Scatter!")
+    stop("Wrong Plot Type!Please type in Curve,Residual,Scatter_Curve or Scatter!")
   }
   if(all(model.type != model.type.list)){
     stop("Wrong Model Type!Please type in H,BA or Bio!")
@@ -49,9 +49,9 @@ plot.forestData <-function(x,model.type="H",
     plot_Curve(x,type=model.type,xlab=xlab,
                ylab=ylab,legend.lab=legend.lab,
                title=title)
-  } else if(plot.type == "residuals"){
-    xlab <- ifelse(is.na(xlab),"residuals",xlab)
-    plot_residuals(x,type=model.type,xlab=xlab,
+  } else if(plot.type == "Residual"){
+    xlab <- ifelse(is.na(xlab),"Residuals",xlab)
+    plot_Residual(x,type=model.type,xlab=xlab,
                    ylab=ylab,legend.lab=legend.lab,
                    title=title)
   } else if(plot.type == "Scatter_Curve"){
@@ -69,7 +69,7 @@ plot.forestData <-function(x,model.type="H",
 
 plot_Curve <- function(forestData,type="H",xlab="Stand age (year)",
                        ylab=NA,legend.lab="Site class",
-                       title="Oak broadleaf mixed"){
+                       title="Mixed birch-broadleaf forest"){
   temp <- forestData$Input
   if(type == "H"){
     plotModel <- forestData$Hmodel$model
@@ -96,9 +96,9 @@ plot_Curve <- function(forestData,type="H",xlab="Stand age (year)",
               legend.lab,title,dd)
 }
 
-plot_residuals <- function(forestData,type="H",xlab="residuals",
+plot_Residual <- function(forestData,type="H",xlab="Residuals",
                            ylab=NA,legend.lab="Site class",
-                           title="Oak broadleaf mixed"){
+                           title="Mixed birch-broadleaf forest"){
   temp <- forestData$Input
   if(type == "H"){
     plotModel <- forestData$Hmodel$model
@@ -128,7 +128,7 @@ plot_residuals <- function(forestData,type="H",xlab="residuals",
 
 plot_Scatter_Curve <- function(forestData,type="H",xlab="Stand age (year)",
                                ylab=NA,legend.lab="Site class",
-                               title="Oak broadleaf mixed"){
+                               title="Mixed birch-broadleaf forest"){
   temp <- forestData$Input
   if(type == "H"){
     plotModel <- forestData$Hmodel$model
@@ -157,17 +157,17 @@ plot_Scatter_Curve <- function(forestData,type="H",xlab="Stand age (year)",
 
 plot_Scatter <- function(forestData,type="H",xlab="Stand age (year)",
                          ylab=NA,legend.lab="Site class",
-                         title="Oak broadleaf mixed"){
+                         title="Mixed birch-broadleaf forest"){
   temp <- forestData$Input
   if(type == "H"){
     plotModel <- forestData$Hmodel$model
     ylab <- ifelse(is.na(ylab),"Height (m)",ylab)
   } else if(type == "BA"){
     plotModel <- forestData$BAmodel$model
-    ylab <- ifelse(is.na(ylab),"Basal area (m2/hm)",ylab)
+    ylab <- ifelse(is.na(ylab),expression(paste("Basal area(",m^2,"/",hm^2,")")),ylab)
   } else if(type == "Bio"){
     plotModel <- forestData$Biomodel$model
-    ylab <- ifelse(is.na(ylab),"Biomass",ylab)
+    ylab <- ifelse(is.na(ylab),expression(paste("Biomass(t/",hm^2,")")),ylab)
   }
 
   ggplot(data=temp,aes_string(x="AGE",y=type,color=factor(temp$LASTGROUP),
